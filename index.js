@@ -20,8 +20,13 @@ app.get("/", function (req, res) {
 
 
 // your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+app.get("/api/:date", function (req, res) {
+  const date = req.params.date;
+  if(/^\d{4}-\d\d-\d\d$/.test(date)){
+    res.json({unix: new Date(date).getTime(), utc: new Date(date).toUTCString()});
+  }else if(/\d{1,}/.test(date)){
+    res.json({unix: date, utc: new Date((Number(date))).toUTCString()})
+  }
 });
 
 
